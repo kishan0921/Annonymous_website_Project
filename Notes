@@ -1,10 +1,9 @@
-
+Summary: 
+=========
 Install Library :
 
 npm i mongoose 
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
-nn
 
 
 
@@ -42,6 +41,7 @@ Eslint :Yes
 Tailwind Css :Yes
 Src : Yes 
 App Router : Yes
+Turbo pack : No
 Customerize the default : No 
 
 
