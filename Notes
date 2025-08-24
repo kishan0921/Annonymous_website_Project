@@ -1,8 +1,15 @@
+//Note: Next js , mostly edge time framework hai.
+//means, ye next js application all time nahi chalti hai, jaise jaise request aata hai
+// waise waiase request execute hota h, and application run krti hai.
+
+Just Remember : Jaise jaise function , schema and all ka request aata hai 
+// waise waise applciaiton run krti hai.. in NEXTJS
 Summary: 
 =========
 Install Library :
 
 npm i mongoose 
+npm i zod
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 
@@ -16,6 +23,7 @@ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 
 
+npm i zod
 
 ================================
 Step : 02
