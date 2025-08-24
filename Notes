@@ -1,0 +1,45 @@
+
+Install Library :
+
+npm i mongoose 
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+
+
+
+
+
+
+
+
+
+
+
+
+================================
+Step : 02
+models:
+  -user.TypeScript
+
+npm i mongoose
+
+======================================
+npm init 
+then 
+npm run dev 
+
+
+========================================
+Step 01:
+
+npx create-next-app@latest
+
+name : mstrymessage 
+TypeScript : Yes 
+Eslint :Yes
+Tailwind Css :Yes
+Src : Yes 
+App Router : Yes
+Customerize the default : No 
+
+
