@@ -12,6 +12,7 @@ npm i mongoose
 npm i zod
 npm install resend
 npm i bcryptjs
+npm i next-auth
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 
@@ -24,6 +25,10 @@ Step 04:
 
 npm install resend
 npm i bcryptjs
+npm i next-auth
+
+https://authjs.dev/getting-started/installation?framework=Next.js
+
 ======================================
 Step 03:
 
