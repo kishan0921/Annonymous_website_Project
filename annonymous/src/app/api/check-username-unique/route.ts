@@ -31,6 +31,25 @@ const usernameQuerySchema = z.object({
 // and await use kiya hu database se connect krne ke liye , so async function banana hoga.
 export async function GET(request: Request) {
 
+
+    // Addtionally, Things
+    // Note: One more important thing
+    // TODO: use this in all other routes
+
+    // Basically, aapko check krna hai request ka type.
+    // agar GET response nahi hai, to bas show krdo ki yaha hum bas GET request hi handle krte hai.
+
+    // console.log(`Received request with method : ${request.method}`);
+    // if (request.method !== 'GET') {
+    //     // ek json response return kr denge.
+    //     return Response.json({
+    //         success: false,
+    //         message: 'Method not allowed',
+    //     }, { status: 405 })
+    // }
+
+
+    // Start from here...
     // database se connect kr lete hai.
     await dbConnect()
 
