@@ -111,24 +111,66 @@ export const authOptions: NextAuthOptions = {
 
 
 
+// Always we have to used jwt and session inside "callbacks"
+// Chalo hum apna callback start krte hai.
 
   callbacks: {
+    // Note: Ab hum Obejct ke ander hai, so ordereing matter nahi krega.
+    // Jwt pehle ho ya baad , no problem 
+    
+    // Let's start jwt, and humme need hai , token and user se hi hmara kaam ho jaayega.
+    // and offcourse ye process hone me time lagega so, async used kr lo.
+    
+    // Ques ? - Ye user aaya kaha se , so uppar hum  User aise return kr rahe hai. wohi user hai
+    // if (isPasswordCorrect) {
+    //   return user;
+
+    // User and token, dono jwt ke ander hai means , jwt se hum dono ko access kr skte hai.
     async jwt({ token, user }) {
+
+    // Agar user hai then, then user se data nikal kr hum token ko powerful banaayege.
       if (user) {
-        token._id = user._id?.toString(); // Convert ObjectId to string
+        // Ab Target ye h,humara ki hum maximum details add kr de token ke payload m  
+        // Ab Token ko powerful banate hai, 
+        
+        
+        // Now, new field bana rahe hai hum _id, and token me value save kr rahe h,
+        // and isska value hum user ke id se nikal rahe h, and id ko string me bhi convert kr rahe hai.
+        // Note: Yaha ye convert hone me problem ho raha h, so hum aur types define krne honge.
+        // So , Let's create 'annonymous\src\types\next-auth.d.ts' File and aao kuch types define krte h
+        token._id = user._id?.toString(); // Basically, Convert kr rahe hai, ObjectId se string me
         token.isVerified = user.isVerified;
+
+        //Ab hum token ke ander isAcceptingMessages le rahe h, and isska value user se isAcceptingMessages se aa raha h
         token.isAcceptingMessages = user.isAcceptingMessages;
+        // same token ke ander hum username ka value le rahe h, and ye value same user.username waala le rahe h.
         token.username = user.username;
       }
+
+      // 
       return token;
     },
+
+    // Note: Same uppar jo Jwt me value liya woohi sab value idhar bhi lenge.
+    // Bacoz- Next-auth jo h na, wo mostly session based hi chalta hai.
+    
+    // yaaha pe mere pass session ke ander session, and token ka access h.
     async session({ session, token }) {
+
+      //Chalo token le lete hai, jab token hoga then
       if (token) {
+        // session ke ander user ka id ka value hum ,same ke lete hai uppar waala.
+        // Like - token._id = user._id?.toString(); 
+        // To, token._id; pass kr dete hai and value mil jaayega.
         session.user._id = token._id;
+        // same like uppar
         session.user.isVerified = token.isVerified;
-        session.user.isAcceptingMessages = token.isAcceptingMessages;
+        // same like uppar
+        session.user.isAcceptingMessages = token.isAcceptingMessages; 
+        // same like uppar
         session.user.username = token.username;
       }
+      // and lastly, return kr diya jo bhi details hai, session ke ander.
       return session;
     },
   },
