@@ -9,6 +9,9 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@ai-sdk/openai": "^2.0.30",
+    "@ai-sdk/react": "^2.0.44",
+    "ai": "^5.0.44",
     "bcrypt": "^6.0.0",
     "bcryptjs": "^3.0.2",
     "mongoose": "^8.18.0",
@@ -17,7 +20,7 @@
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "resend": "^6.0.1",
-    "zod": "^4.1.1"
+    "zod": "^4.1.8"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

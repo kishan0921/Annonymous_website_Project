@@ -19,10 +19,21 @@ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 
 
+Step 07: Ai intregation  [4:33:00]
+
+https://ai-sdk.dev/docs/getting-started/nextjs-app-router
+
+npm install ai @ai-sdk/react @ai-sdk/openai zod
+
+Note: Directly Copy-paste the code from (https://ai-sdk.dev/docs/getting-started/nextjs-app-router)
+(then Wire up UI) - 90 % copypaste code
+annonymous/src/app/api/suggest-messages/route.ts
+
+
 =============================================
 Step 06: 
 
-
+4:32:00 Till Done 
 
 3:34:00 - Summary (check username unique)
 annonymous/src/app/check-username-unique/route.ts
