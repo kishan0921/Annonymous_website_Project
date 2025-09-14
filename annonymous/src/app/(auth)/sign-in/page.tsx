@@ -1,14 +1,12 @@
-
-// ye jo provider hai, actually me client components hota hai.
-// so,
 'use client';
 
-
-// ye pura signup waala page ka strucuture hai.
-
+// zod resolver and useform to lagega hi laagega.
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
+
+
+
 import { signIn } from 'next-auth/react';
 import {
   Form,
@@ -19,6 +17,8 @@ import {
 } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+
+// Linkage bhi laagega hi laagega, to next se le laate hai.
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/components/ui/use-toast';

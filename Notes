@@ -17,20 +17,51 @@ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 
 
+Step 08 : 
 
+Topic: useEffect
+// Note: jab bhi mera page reload hoga, useeffect call hoga and 2nd jab mera username ki value change hogi. 
+  // lakin username ki value nahi , debounce username ki value change hogi jab 2nd time mera useeffect run hoga.
+  // Syntax - 
+  // useEffect (() => {}, [] ) 
+  // () => {}, - ek mera lgta hai callback 
+  // [] - aur ek laagta hai mera dependency array.
+
+
+https://react-hook-form.com/get-started
+
+(Toast)
+https://v3.shadcn.com/docs/components/toast
+
+npx shadcn-ui@latest add toast
+
+
+
+(all hooks)
+https://usehooks-ts.com/introduction
+npm install usehooks-ts
+
+
+
+[5:01:00] - axios install (for sending request)
+
+Lucide react :For iconic(and shadcn is providing this)
+https://lucide.dev/guide/packages/lucide-react
 
 Step 07: Ai intregation  
+
 
 [4:54:11] form installing
 https://ui.shadcn.com/docs/components/form
 npx shadcn@latest add form
+  - src/components/ui/form.tsx
 
 
  Created 3 files:
  note: these file is create with UI code.
   - src/components/ui/button.tsx
   - src/components/ui/label.tsx
-  - src/components/ui/form.tsx
+
 
 https://ui.shadcn.com/docs/installation/next
 npx shadcn@latest init
