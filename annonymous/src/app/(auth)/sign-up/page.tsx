@@ -11,7 +11,7 @@ import { useForm } from 'react-hook-form';
 import Link from 'next/link';
 
 import { useEffect, useState } from 'react';
-import { useDebounce } from 'usehooks-ts';
+import { useDebounce, useDebounceCallback } from 'usehooks-ts';
 
 
 import { Button } from '@/components/ui/button';
@@ -42,7 +42,10 @@ export default function SignUpForm() {
   const [usernameMessage, setUsernameMessage] = useState('');
   const [isCheckingUsername, setIsCheckingUsername] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const debouncedUsername = useDebounce(username, 300);
+
+  //Earlier we are using,useDebounce . but ussko remove krke hum useDebounceCallback use krenge
+  //  useDebounce ke ander username function ka value , 300 milisec me set ho jaayega
+  const debounced = useDebounceCallback(setUsername, 300);
 
   // use router bhi use kr lete h, kyuki user ko idhar udhar to bhejenge hi
   const router = useRouter();
@@ -98,7 +101,7 @@ export default function SignUpForm() {
         // ab iss method ko abhi tk call nhi kiye h, 
         // abhi 1st check krengege.
         // debouncedUsername me koi value hai ya nahi.
-      if (debouncedUsername) {
+      if (username) {
         // setIsCheckingUsername - true mtlb abhi chl rahi h checking
         setIsCheckingUsername(true);
         // next mera jo setUsernameMessage - ussko empty kr deta hu
@@ -113,7 +116,7 @@ export default function SignUpForm() {
             // get - ka data type bhi define kr skte hi like - ApiResponse
           const response = await axios.get<ApiResponse>(
             // username ke ander hum variable inject kr diye h ${debouncedUsername}
-            `/api/check-username-unique?username=${debouncedUsername}`
+            `/api/check-username-unique?username=${username}`
           );
           // ab mera message aa hi jaata hai , to sidha use kr lo setUsernameMessage.
           // Axios me , mere pass response ke ander data aata hai,then backend se jitna bhi data bheja , wo message ke ander extract krwa skte ho.
@@ -149,7 +152,7 @@ export default function SignUpForm() {
     // run krwa diya hu.
     checkUsernameUnique();
   }, // Dependecy array me mera debouncedUsername(for 2nd time run), 1st time run (when page called)
-  [debouncedUsername]);
+  [username]);
 
 
   // ab actually me baatate , form jab submit hoga to ky krna hai.
@@ -281,18 +284,24 @@ export default function SignUpForm() {
                       // but extra hum ye username field jo h,issko mai 1 aur jagah manage kr raha hu personally mere liye,
                       // kyuki maine ek functionally daali h, uppar mai username field ko control kr raha hu.
                       // So, setUsername(e.target.value); ye likhna pada mujhe
-                      setUsername(e.target.value);
+                      debounced(e.target.value);
                     }}
                   />
+                  {/* thodi si javascript use kr lete h,jab username check ho raha h, uss time 
+                  ek Loader2 ko show kr denge */}
                   {isCheckingUsername && <Loader2 className="animate-spin" />}
+
+
                   {!isCheckingUsername && usernameMessage && (
                     <p
                       className={`text-sm ${
+                        // Username is unique exaclly ye message aayega to ? (green) : nahi to (red) me username show kr denge.
                         usernameMessage === 'Username is unique'
                           ? 'text-green-500'
                           : 'text-red-500'
                       }`}
                     >
+                      {/* // and yaha pe message show kr diye h */}
                       {usernameMessage}
                     </p>
                   )}
@@ -330,17 +339,28 @@ export default function SignUpForm() {
             {/* button ke ander bhi kuch properties h like - button ka type, classname ,disbled kb hoga button */}
             {/* // button disabled/enabled hoga based on isSubmitting= true/false  */}
             <Button type="submit" className='w-full' disabled={isSubmitting}>
+
+              {/* // chalo aao text ko manipulate krte hai, using javascript */}
+              {/* //hume pta hai, humare pass isSubmitting hai 
+              so  isSubmitting ? () true hai to kuch kr lenge 
+              nahi to : () falase hai to kuch kr lenge  */}
               {isSubmitting ? (
+                // agar true hai , to loader components load krwa dete h
                 <>
+                {/* Loader2 icon from shadcn se  */}
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  {/* // and text show hoga, Please wait */}
                   Please wait
                 </>
               ) : (
+                // isSubmitting false hai to - 'signup'
                 'Sign Up'
               )}
             </Button>
           </form>
         </Form>
+
+        {/* form ke and me  agar aap already member ho to sign in add kr diya hu*/}
         <div className="text-center mt-4">
           <p>
             Already a member?{' '}
