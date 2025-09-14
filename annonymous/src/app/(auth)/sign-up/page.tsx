@@ -11,7 +11,8 @@ import { useForm } from 'react-hook-form';
 import Link from 'next/link';
 
 import { useEffect, useState } from 'react';
-import { useDebounce, useDebounceCallback } from 'usehooks-ts';
+// import { useDebounce, useDebounceCallback } from 'usehooks-ts';
+import {useDebounceCallback } from 'usehooks-ts';
 
 
 import { Button } from '@/components/ui/button';
@@ -191,6 +192,7 @@ export default function SignUpForm() {
 
       // toast message show hone ke baad mai, 
       //router ka use krke, mai redirect/replace  kar dunga user ko /verify/ and username ke name waale page pe
+      
       router.replace(`/verify/${username}`);
 
 

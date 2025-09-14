@@ -17,7 +17,21 @@ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 
 
-Step 08 : 
+Step 08 :
+
+npm install usehooks-ts axios && npm install -D @types/axios && npx shadcn-ui@latest add toast
+
+npm install usehooks-ts
+npx shadcn-ui@latest add toast
+
+
+
+
+6:07:00 
+install missing 
+npx shadcn@latest add input
+npx shadcn@latest add toast
+
 
 5:40:00 
 Input package install
