@@ -129,6 +129,7 @@ export default function SignUpForm() {
           const axiosError = error as AxiosError<ApiResponse>;
           // agar karab ho gya h case to 
           // axiosError.response?  ho skte h isske ander aaya ho. (so optionally ?. use krenge) 
+          // Method - 01
           // agar nahi aaya h, so , ?? (use krke hum data.message me apne hi message de dete hai - Error checking username)data.message ?? 
           setUsernameMessage(
             axiosError.response?.data.message ?? 'Error checking username'
@@ -179,33 +180,60 @@ export default function SignUpForm() {
 
       // ab mera response aa chuka h, and sabkuch thik hai to user ko ek toast "Success" waala show kr dete h
       toast({
-        // Kai tarah ke toea
+        // toast ke ander hume kaafi option milte hai, like - title, descript use kr raha hu.
         title: 'Success',
+        // description jo h mera, wo response ke ander data me ander message me rahega.
         description: response.data.message,
       });
 
+      // toast message show hone ke baad mai, 
+      //router ka use krke, mai redirect/replace  kar dunga user ko /verify/ and username ke name waale page pe
       router.replace(`/verify/${username}`);
 
+
+    // finally use nahi kr rahe, so try ke last me , and catch ke last me 
+    // setIsSubmitting(false); krna hoga.
       setIsSubmitting(false);
     } catch (error) {
       console.error('Error during sign-up:', error);
 
-      const axiosError = error as AxiosError<ApiResponse>;
+      // yaha hum axios ke error handle krna learn krenge.
+
+            // mera jo error hai ussko AxiosError ki tarah caste kr do.
+            // AxiosError ka datatype define kr skte ho , like- ApiResponse 
+            // then value hold kr lete hai axiosError variable me
+            const axiosError = error as AxiosError<ApiResponse>;
+            
 
       // Default error message
+      // agar karab ho gya h case to 
+      // axiosError.response?  ho skte h isske ander aaya ho. (so optionally ?. use krenge) 
+      // Method - 02
+      // agar nahi aaya h, so , data.message; (use krke hum data.message me apne hi message de dete hai - There was a problem with your sign-up. Please try again.) 
       let errorMessage = axiosError.response?.data.message;
       ('There was a problem with your sign-up. Please try again.');
 
-      toast({
-        title: 'Sign Up Failed',
-        description: errorMessage,
-        variant: 'destructive',
-      });
 
+            // ab mera response aa chuka h, and sabkuch thik hai to user ko ek toast "Success" waala show kr dete h
+            toast({
+              // toast ke ander hume kaafi option milte hai, like - title, descript use kr raha hu.
+              title: 'Sign Up Failed',
+              // description jo h mera, ussme errorMessage show kr diye.
+              description: errorMessage,
+              // agar aap chaho to varient le skte ho, like - default and destructive
+              variant: 'destructive',
+            });
+     
+
+      // finally use nahi kr rahe, so try ke last me , and catch ke last me 
+    // setIsSubmitting(false); krna hoga.
       setIsSubmitting(false);
     }
   };
+// Logical part complete ho gya h mera yaha pe
 
+
+// ab mujhe frontend pe bhi deal/ handle krna hoga 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-800">
       <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
@@ -215,18 +243,44 @@ export default function SignUpForm() {
           </h1>
           <p className="mb-4">Sign up to start your anonymous adventure</p>
         </div>
+
+        {/* main part - same code from Topic - Build your form (docs - https://ui.shadcn.com/docs/components/form) */}
+        {/* Form ko le aate hai, react-hook-form se */}
+        {/* next humne documentation me dekha mujhe destructure krke ...form lena hoga to ye kr lete h */}
+        {/* Uppar "const form" bana hua hai ussme hi saare Form ka data inject krte jaayenge.  */}
         <Form {...form}>
+          {/* ab aate hai small form ke ander , isske ander hume onSubmit chahiye */}
+          {/* onSubmit ye waala normal ni h, usske ander hume milta h form then handlesubmit method,
+          handleSubmit method apne aap kuch nhi krta to,isske ander
+          (onsubmit) call kr denge, jo humne banaya h*/}
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            {/* ab form field le aate hai document se and then modified kr denge */}
+            {/* Summary : 
+                  Form Field 
+                    -> FormItem
+                    ->Input 
+                    ->Form Message (not using we are)*/}
+
             <FormField
               name="username"
               control={form.control}
+              // render krna hai field ko , means saare control mujhe field ko dena h
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Username</FormLabel>
                   <Input
+                  // ab field to humne yaha de diya, but isske ander value inject krna hoga.
                     {...field}
+                    // bahut easy hai, onChange name ka classic method hota hai.
+                    // onchange ke ander humare pass event (e) aata hai, and ye event ke 
+                    // through hum value add kr denge, Esliye
                     onChange={(e) => {
+                      // ab boliye ek field hai and isske ander onChange h and then event pass kr rahe h, field ko
                       field.onChange(e);
+                      // ab react hook form wala process yaha end ho raha, 
+                      // but extra hum ye username field jo h,issko mai 1 aur jagah manage kr raha hu personally mere liye,
+                      // kyuki maine ek functionally daali h, uppar mai username field ko control kr raha hu.
+                      // So, setUsername(e.target.value); ye likhna pada mujhe
                       setUsername(e.target.value);
                     }}
                   />
@@ -270,6 +324,11 @@ export default function SignUpForm() {
                 </FormItem>
               )}
             />
+
+
+            {/*ab mera form khtm ho raha , so usse pehle 1 button show krna hoga  */}
+            {/* button ke ander bhi kuch properties h like - button ka type, classname ,disbled kb hoga button */}
+            {/* // button disabled/enabled hoga based on isSubmitting= true/false  */}
             <Button type="submit" className='w-full' disabled={isSubmitting}>
               {isSubmitting ? (
                 <>

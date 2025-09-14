@@ -19,6 +19,10 @@ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 Step 08 : 
 
+5:40:00 
+Input package install
+npx shadcn-ui@latest add input
+
 Topic: useEffect
 // Note: jab bhi mera page reload hoga, useeffect call hoga and 2nd jab mera username ki value change hogi. 
   // lakin username ki value nahi , debounce username ki value change hogi jab 2nd time mera useeffect run hoga.
