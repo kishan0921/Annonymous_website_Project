@@ -17,6 +17,12 @@ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 
 
+
+Step 09: 7:000 
+npx shadcn@latest add card
+https://v3.shadcn.com/docs/components/card
+
+
 Step 08 :
 
 npm install usehooks-ts axios && npm install -D @types/axios && npx shadcn-ui@latest add toast
