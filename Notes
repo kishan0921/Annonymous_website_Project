@@ -13,8 +13,35 @@ npm i zod
 npm install resend
 npm i bcryptjs
 npm i next-auth
+
+IMPORTANT :: 
+this is the main page of application
+annonymous/src/app/(app)/page.tsx
+
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
+8:10:00
+import Autoplay from 'embla-carousel-autoplay';
+install - https://www.embla-carousel.com/get-started/react/
+
+npm i embla-carousel-autoplay
+then run 
+npm install embla-carousel-react --save
+
+==================================================
+note: Don't install this.please
+npm install embla-carousel-react --save
+then facing error so, uninstall it becoz we want specific autoplay waala npm
+npm uninstall embla-carousel-react --save
+
+
+
+8:05:00
+https://ui.shadcn.com/docs/components/carousel
+npx shadcn@latest add carousel
+
+this is the main page of application
+annonymous/src/app/(app)/page.tsx
 
 
 
