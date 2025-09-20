@@ -23,10 +23,16 @@ import { Message } from '@/model/User';
 // 🔹 Message type import kiya.
 // 🔹 Ye define karta hai ki ek message object me kya kya fields honge (_id, content, createdAt, etc).
 
+// npx shadcn@latest add card karke install kar liya hu and then
+// document https://v3.shadcn.com/docs/components/card se import kr liya hu, saare cards
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'; 
 // 🔹 Shadcn UI card components import kiya.
 // 🔹 Ye UI ke liye container provide karte hain, message ko nicely style karne ke liye.
 
+
+// Note: ALert ka use hoga jab, click kroge to wo alert show krega, yes or no issliye.
+// npx shadcn@latest add alert-dialog - isse install kr liye 
+// and https://v3.shadcn.com/docs/components/alert-dialog  me jaakar - import bhi kar liye
 import {
   AlertDialog,
   AlertDialogAction,
@@ -54,24 +60,42 @@ import { ApiResponse } from '@/types/ApiResponse';
 
 
 // 🔹 Props type define kiya component ke liye
+// MessageCardProps waala ek type bana lete hai.
 type MessageCardProps = {
+  // mera message aayah usska type hum model/ se le lete hai. 
   message: Message; // ek single message object
+  // and ek method bhi aayega humare pass me.
+  // onMessageDelete ye method mera ky return krega, pta nhi so void assigned kr dete h.
+  // isske ander mujhe messageId milegi, jo ki string type ki rahegi.
   onMessageDelete: (messageId: string) => void; 
   // Parent component ko notify karne ke liye ki kaunsa message delete hua
 };
 
 
 // 🔹 Functional component start
+// note: sabse pehla kaam ye hai, ki jab bhi aap ye MessageCard use kroge,
+// to kuch property ya data h, ussko mujhe pass On krna hoga.
+// to mai message - pass kar raha hu, and ek method onMessageDelete pass kar raha hu.
+// and ek type hai, wo type assigned kr diye hi (MessageCardProps) ki tarah rahega.
+// basically, typescript h to dataType define krna padega. kr diye MessageCardProps isski tarah hoga.
 export function MessageCard({ message, onMessageDelete }: MessageCardProps) {
+  // ek toast le lete hai, and ye mera useToast se aa jaayega.
   const { toast } = useToast(); 
   // 🔹 toast ko initialize kiya
   // 🔹 Ye notification show karne ke liye use hoga
 
   // 🔹 Function for delete confirmation
+  // Ab handleDeleteConfirm ye kaise kaam krega ?
+  // message ki id aa hi gayi hai mera pass, to sidha api request kr do , 
+  // message delete krne ki.
   const handleDeleteConfirm = async () => {
     try {
       // 🔹 Backend ko delete request bhej rahe hain
+      // hum simple ek axios requestion mar denge.and axios se bol denge app ek delete request fired kr do
+      // and <ApiResponse> response bhi le liye.
+      // Note: /api/delete-message/  (ye api abhi tk exist ni krta , next video me code krenge.)
       const response = await axios.delete<ApiResponse>(
+        // axios jo h, simple sa request fired krega `` is url pe with message id pass kr rahe h.
         `/api/delete-message/${message._id}`
       );
 
@@ -81,6 +105,7 @@ export function MessageCard({ message, onMessageDelete }: MessageCardProps) {
         // 🔹 response.data.message backend se aayega, jaise "Message deleted successfully"
       });
 
+      // jo onMessageDelete iss method ke ander bhi (message._id) pass kr denge.
       // 🔹 Parent component ko notify karo ki message delete hua
       onMessageDelete(message._id);
 

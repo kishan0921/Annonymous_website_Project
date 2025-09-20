@@ -19,6 +19,13 @@ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 
 Step 09: 7:000 
+
+Alert Dialog 
+https://v3.shadcn.com/docs/components/alert-dialog
+npx shadcn@latest add alert-dialog
+
+
+
 npx shadcn@latest add card
 https://v3.shadcn.com/docs/components/card
 
