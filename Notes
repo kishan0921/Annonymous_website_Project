@@ -18,7 +18,17 @@ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 
 
-Step 09: 7:000 
+Step 09: 
+
+7:25:00  - watch and setValue
+https://react-hook-form.com/docs/useform/watch
+https://react-hook-form.com/docs/useform/setvalue
+
+7:17:00 
+https://www.mongodb.com/docs/manual/reference/operator/update/pull/
+
+
+7:000 
 
 Alert Dialog 
 https://v3.shadcn.com/docs/components/alert-dialog

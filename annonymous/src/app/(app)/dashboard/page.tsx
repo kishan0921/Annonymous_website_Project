@@ -1,4 +1,7 @@
+
+// ye to hoga hi hoga, kyuki kaafi hooks, react state wagera use krne waale hai.
 'use client';
+
 
 import { MessageCard } from '@/components/MessageCard';
 import { Button } from '@/components/ui/button';
@@ -15,12 +18,19 @@ import { useSession } from 'next-auth/react';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AcceptMessageSchema } from '@/schemas/acceptMessageSchema';
-
+S
 function UserDashboard() {
+  // 1st tension to mujhe h, message ki ... to message le aate hai.
+  // [messages, setMessages] to saare messages mere pass aa jaayegnge, and use state use kr leta hu.
+  // and starting me [] empty array rhega, and isska data type bhi define kr lete h, jo ki Message rahega, and ye model/user se aa jaayge .
   const [messages, setMessages] = useState<Message[]>([]);
+  // ab state bhi manage krni padegi , to loading ki state to rahegi hi.initially ye false rahega.
+  //  ye laoading use case ka hai, jab mai message fetch kr raha hu. and jab mai state change krunga uss case me SwitchLoading waala loader use kr lenge.
   const [isLoading, setIsLoading] = useState(false);
+  //  ye laoading use case ka hai, jab mai message fetch kr raha hu. and jab mai state change krunga uss case me SwitchLoading waala loader use kr lenge.
   const [isSwitchLoading, setIsSwitchLoading] = useState(false);
 
+  // Toast  bhi use hoga, so le aate hai.S
   const { toast } = useToast();
 
   const handleDeleteMessage = (messageId: string) => {
