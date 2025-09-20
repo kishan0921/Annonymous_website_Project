@@ -33,52 +33,114 @@ function UserDashboard() {
   // Toast  bhi use hoga, so le aate hai.S
   const { toast } = useToast();
 
+
+  // ab hum yaha optimitize ui update krenge,
+  // means - like jaise hum instagram pe like krte hai, ussi time ui update ho jaata hai.
+  // actual me wo server se update ni hota hai, but hum ui pe update kr dete hai instantly and then agar backend 
+  // se kuch problm hota hai to ussko ui pe update kr denge..aisa kuch yaaha pe bhi krenge.
+
+  // hum ek method banayenge handleDeleteMessage , and ye jab bhi run krega to issko messageId: string chahiye hoga.
+
   const handleDeleteMessage = (messageId: string) => {
+    // ab setMessages ke ander saare messages hai mere, 
+    // then filter krwaao and filter ke ander callback ka use kro 
+    // then callback ko bolo, aapke pass jo message aa raha h, 
+    // message._id !== messageId , messageId equal to nhi to ussko bahar rahne do and rest ko add kr do.
     setMessages(messages.filter((message) => message._id !== messageId));
   };
 
+  // ab user ke dashboard pe hu, to session lagega hi lagega.
+  // data: session  - pta nahi kyu aise liye h , but documentation me aise hi mention h.
   const { data: session } = useSession();
 
+
+  // ab useForm method ka use kr liye h.
   const form = useForm({
+    // ab ek zodResolverresolver use krenge, and ye mere aayega resolver se
+    // ab zodResolver apne aap nhi kaam krega , issko method name pass krna hoga.
     resolver: zodResolver(AcceptMessageSchema),
   });
 
+
+
+  // form se hum register, watch, setValue nikal lete hai.
   const { register, watch, setValue } = form;
+
+  // kis chiz ko hume watch krna hai, wo inject krna hota h 
+  // to watch me hum 'acceptMessages' ko watch krna chahte h
+  // watch ek method hai.
   const acceptMessages = watch('acceptMessages');
 
+
+
+  // ab wohi simple hum api call krne waale hai.to hum use kr lenge, useCallback
+  // isske ander hume async use krna hai, then ek callback
   const fetchAcceptMessages = useCallback(async () => {
+    // setIsSwitchLoading(true); ko true krte hai, ye ek loader hai.
     setIsSwitchLoading(true);
     try {
+      // sabse pehle to await then axios ko bolo aapko ek request send krni h get 
+      //'/api/accept-messages' yaha pe and response jo aayega wo , ApiResponse ki tarah hoga.
       const response = await axios.get<ApiResponse>('/api/accept-messages');
+      // and jo bhi response aayega usse basis pe mai setValue set kr dega acceptMessages ka value ui pe immediately.
       setValue('acceptMessages', response.data.isAcceptingMessages);
     } catch (error) {
+      // ab axios ke error bhi catch kr lete hai.
       const axiosError = error as AxiosError<ApiResponse>;
+
+      // ab ek toast message bhi show kr den
       toast({
+        // toast ka title error h
         title: 'Error',
+        // description jo h mera axiosError.response ye waala show krega and agar ye present nhi h
+        // to hum hard coded message fill kr rahe hai data.message ?? 'Failed to fetch message settings'
         description:
           axiosError.response?.data.message ??
           'Failed to fetch message settings',
+          // and variant ye de rahe h
         variant: 'destructive',
       });
-    } finally {
+
+    } 
+    // then filter always execute hota hi h, to issme setIsSwitchLoading(false) loader off kr dete h
+    finally {
       setIsSwitchLoading(false);
     }
-  }, [setValue, toast]);
+  }, 
+  // issko bhi kuch dependency array chahiye hota hai.
+  // value me change hoga, ya toast message show hoga to iss api hit kr denge.
+  [setValue, toast]);
 
+
+    // ab wohi simple hum api call krne waale hai.to hum use kr lenge, useCallback
+  // isske ander hume async use krna hai, then ek callback
   const fetchMessages = useCallback(
+    // jo bhi iss method ko use krega, wo mujhe ek variable bhejega refresh: and isska type boolean hoga. 
+    // and agar kuch nhi bhejta h to hum isska value false le lenge.
     async (refresh: boolean = false) => {
+      // setIsLoading(true); ko true krte hai, ye ek loader hai.
       setIsLoading(true);
+      // setIsSwitchLoading(true); ko true krte hai, ye ek loader hai.
       setIsSwitchLoading(false);
       try {
+        // sabse pehle to await then axios ko bolo aapko ek request send krni h get 
+      //'/api/get-messages' yaha pe and response jo aayega wo , ApiResponse ki tarah hoga.
         const response = await axios.get<ApiResponse>('/api/get-messages');
+        // setMessages ka use krenge and message store kr denge jo ki mujhe response.data.message se mil jaayegnge
+        // in case kuch nhi mila to empty set kr dete h
         setMessages(response.data.messages || []);
+
+        // agar mera refresh yaha pe h, to toast message show kr denge
         if (refresh) {
           toast({
             title: 'Refreshed Messages',
             description: 'Showing latest messages',
           });
         }
-      } catch (error) {
+      } 
+      // kuch error aayega to catch handle kr lega.
+      catch (error) {
+         // ab axios ke error bhi catch kr lete hai.
         const axiosError = error as AxiosError<ApiResponse>;
         toast({
           title: 'Error',
@@ -86,24 +148,44 @@ function UserDashboard() {
             axiosError.response?.data.message ?? 'Failed to fetch messages',
           variant: 'destructive',
         });
-      } finally {
+      } 
+      // then filter always execute hota hi h, to issme setIsSwitchLoading(false),
+      // setIsLoading(false) loader off kr dete h
+      finally {
         setIsLoading(false);
         setIsSwitchLoading(false);
       }
     },
+    // issko bhi kuch dependency array chahiye hota hai.
+  // vasetIsLoading,setMessages  me change hoga, ya toast message show hoga to iss api hit kr denge.
     [setIsLoading, setMessages, toast]
   );
 
+
+// ab most important kaam kr lete h, ek useEffect ka use kr lete h 
+// syntax -   useEffect ( () => {} - callback and [] - dependency array) 
   // Fetch initial state from the server
   useEffect(() => {
+
+    // agar koi session nhi h, 
+    // ya session to hai but usske ander user ni h.... to hum directly return kr denge issko.
+    // mtlb ye mthod hum run hi nhi krenge. iss case me
     if (!session || !session.user) return;
 
+
+    // saare message mujhe fetch kr do
     fetchMessages();
 
+    // and ye use kro isse mujhe state pta chl jaayegi.
     fetchAcceptMessages();
-  }, [session, setValue, toast, fetchAcceptMessages, fetchMessages]);
+  }, 
+  // agar session, setValue, toast, fetchAcceptMessages, fetchMessages kuch bhi change hota h to issko run kro.
+  [session, setValue, toast, fetchAcceptMessages, fetchMessages]);
 
-  // Handle switch change
+
+
+
+  // Handle switch change 
   const handleSwitchChange = async () => {
     try {
       const response = await axios.post<ApiResponse>('/api/accept-messages', {
