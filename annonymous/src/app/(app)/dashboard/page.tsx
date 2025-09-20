@@ -124,7 +124,7 @@ function UserDashboard() {
       setIsSwitchLoading(false);
       try {
         // sabse pehle to await then axios ko bolo aapko ek request send krni h get 
-      //'/api/get-messages' yaha pe and response jo aayega wo , ApiResponse ki tarah hoga.
+      //'/api/get-messages' yaha pe and response jo aayega wo , and typescript follow kr rahe h ApiResponse ki tarah hoga.
         const response = await axios.get<ApiResponse>('/api/get-messages');
         // setMessages ka use krenge and message store kr denge jo ki mujhe response.data.message se mil jaayegnge
         // in case kuch nhi mila to empty set kr dete h
@@ -144,6 +144,8 @@ function UserDashboard() {
         const axiosError = error as AxiosError<ApiResponse>;
         toast({
           title: 'Error',
+          // description jo h mera axiosError.response ye waala show krega and agar ye present nhi h
+        // to hum hard coded message fill kr rahe hai data.message ?? 'Failed to fetch message settings'
           description:
             axiosError.response?.data.message ?? 'Failed to fetch messages',
           variant: 'destructive',
@@ -185,21 +187,37 @@ function UserDashboard() {
 
 
 
-  // Handle switch change 
+  // ab ek aur handleSwitchChange method banayega and ye async method hoga 
   const handleSwitchChange = async () => {
     try {
+        // sabse pehle to await then axios ko bolo aapko ek request send krni h get 
+      // '/api/accept-messages' yaha pe and response jo aayega wo , and typescript follow kr rahe h ApiResponse ki tarah hoga.
       const response = await axios.post<ApiResponse>('/api/accept-messages', {
+        // request to fired kar denge, but kuch data bhi to send krna hoga na.
+        // to hum bhej rahe hai , agar acceptMessages true/false hai to false/true kr do.
         acceptMessages: !acceptMessages,
       });
+
+      // ab hum setValue waala hook, le kar aaye h to jo bhi response me mujhe mil raha h value wo set kr dete h.
       setValue('acceptMessages', !acceptMessages);
+
+      // value set ho ga , then ek toast show kr dete hai.
       toast({
+        // title me message show ho jaayga , jo ki reposne.data.message se aayega.
         title: response.data.message,
+        //and variant de dete hai isska.
         variant: 'default',
       });
-    } catch (error) {
+    } 
+    // agar kuch garbar hota hai, to catch part handle kr lega.
+    catch (error) {
+      // ab axios ke error bhi catch kr lete hai.and error ka typescript deta bhi define kr dete hai , like ApiResponse jaisa hoga.
       const axiosError = error as AxiosError<ApiResponse>;
+      // ab ek toast message bhi show kr den
       toast({
         title: 'Error',
+        // description jo h mera axiosError.response ye waala show krega and agar ye present nhi h
+        // to hum hard coded message fill kr rahe hai data.message ?? 'Failed to fetch message settings'
         description:
           axiosError.response?.data.message ??
           'Failed to update message settings',
@@ -208,19 +226,44 @@ function UserDashboard() {
     }
   };
 
+  // ek ye condition mujhe check and return krni hogi,
+  // agar mere pass session ni h, ya fir session ke ander user ni h
+  // to hum directly empty div return kr denge. ya kuch message ke saath bhi return kr skte ho like
+  // - Please login
   if (!session || !session.user) {
     return <div></div>;
   }
 
+  // ab hum username nikal lete hai session ke user se 
+  // session.user ko caste kr deta hu as User se warna error show krega.
   const { username } = session.user as User;
 
+
+  // ab 2 chize hai, actually me hume ek baseUrl find krna hoga.
+  // 2nd mujhe ek url build krna hoga.
+
+
+  // window object mai use kr lunga, then isse mai location nikal skta hu, then location se protocol aa jaayega  (mtlb http , https ye sab)
+  // then // laagayenge, 
+  // then ek aur variable inject krte hai , host chaiye mujhe usske liye
+  // to window object se location mil jaayega then locaiton se host mil jaayega.
   const baseUrl = `${window.location.protocol}//${window.location.host}`;
+  // uppar ittna krne se profile url ni aaya hai, to chalo build kr lete h
+  // profileUrl banane ke liye baseUrl lo then /u / username bas.
   const profileUrl = `${baseUrl}/u/${username}`;
 
+
+  // lastly, hum ek method banana bhul gye copyToClipboard.
   const copyToClipboard = () => {
+    // navigator ka option hai aapke bass , kyuki aap frontend pe ho and client components pe ho.
+    // navigator ka help le kar , clipboard use kr lenge,then clipboard ke ander bahut method ka access milega, 
+    // hum writeText use kr lenge and ussme (profileUrl) pass kr denge. taaaki copy pe click kro to profileUrl copy ho jaaye.
     navigator.clipboard.writeText(profileUrl);
+    // ab agar profileUrl copy ho gaya h, then ek toast bhi show kr dete h.
     toast({
+      // title me ye show hoga
       title: 'URL Copied!',
+      // and description me ye show ho jaayega.
       description: 'Profile URL has been copied to clipboard.',
     });
   };
@@ -238,18 +281,29 @@ function UserDashboard() {
             disabled
             className="input input-bordered w-full p-2 mr-2"
           />
+
+          {/* main kaam mera button ka hai  */}
           <Button onClick={copyToClipboard}>Copy</Button>
         </div>
       </div>
 
       <div className="mb-4">
+
+         {/* ye hai mera sabbse mai kaam  */}
         <Switch
+
+// {...field} use kr rahe the and  and kon sa field hai usska name bhi define kr rahe the<FormField  name="username" bhi de rahe the, 
+// but yaaha switch me name nhi hota hai, to hum ...register destructure kr liye, 
+// jo ki apne aap me object hai, and usske ander value add kr du 'acceptMessages'
+// and issi acceptMessages ko hum sab jagah ghuma rahe the.
           {...register('acceptMessages')}
+          // niche ye sab state se check ho raha h.to koi problm ni
           checked={acceptMessages}
           onCheckedChange={handleSwitchChange}
           disabled={isSwitchLoading}
         />
         <span className="ml-2">
+          {/* accept message ka value hum accpetmessage pe depend krega and usske a/c ON ya OFF show hoga  */}
           Accept Messages: {acceptMessages ? 'On' : 'Off'}
         </span>
       </div>
